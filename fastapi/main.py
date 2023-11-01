@@ -132,3 +132,21 @@ def usersnotrecommend(anio: int):
 
 #////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+df = pd.read_csv('dfx_sentimiento.csv')
+
+@app.get("/sentiment_analysis/{anio}")
+
+def get_sentiment_analysis(año: int):
+    
+    # Filtrar las reseñas por el año de lanzamiento
+    filtered_df = df[df['Lanzamiento'] == año]
+
+    # Calcular la cantidad de registros por análisis de sentimiento
+    sentiment_counts = filtered_df['Sentimiento'].value_counts()
+
+    # Convertir el resultado a un diccionario
+    result = {key: value for key, value in zip(sentiment_counts.index, sentiment_counts)}
+    
+    return result
+
+#///////////////////////////////////////////////////////////////////////////////////////////////////
