@@ -76,53 +76,20 @@ def userforgenre(genero: str):
 
 
 #/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-dataframe1 = pd.read_csv('dfx_sentimiento.csv')
-dataframe2 = pd.read_csv('dfx_steam_games.csv')
+dataframe = pd.read_csv('dfx_sentimiento.csv')
 
 @app.get('/usersrecommend/{anio}')
-
 def usersrecommend(anio: int):
-        # Filtro teniendo en cuenta los positivos/
-    filtro_df1 = dataframe1[(dataframe1['Recomendacion'] == True)]
-    dataframe2['Lanzamiento'] = dataframe2['Lanzamiento'].astype(int)
-    
-        # Filtra en relacion al año
-    filtro_df2 = dataframe2[dataframe2['Lanzamiento'] == anio]
-    
+        # Filtro
+    filtro_df = dataframe[(dataframe['Recomendacion'] == True) & (dataframe['Lanzamiento'] == anio)]
 
-    if filtro_df1.empty or filtro_df2.empty:
-        return {"Mensaje": "No se encontraron juegos recomendados para el año especificado"}
+    if filtro_df.empty:
+        return {"Mensaje": f"No se encontraron juegos recomendados para el año {anio}"}
 
-        # Combinacion
-    juegos_recomendados = filtro_df1.merge(filtro_df2, left_on='Item_id', right_on='Id')
-    top_juegos = juegos_recomendados.groupby('Nombre_del_contenido')['Recomendacion'].count().reset_index()
+        # Agrupar los juegos 
+    top_juegos = filtro_df.groupby('Nombre_del_contenido')['Recomendacion'].count().reset_index()
 
-        # Ordena los juegos
-    top_juegos = top_juegos.sort_values(by='Recomendacion', ascending=False).head(3)
-
-        # Resultado
-    resultado = [{"Puesto " + str(i + 1): juego} for i, juego in enumerate(top_juegos['Nombre_del_contenido'])]
-
-    return resultado
-
-#////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-@app.get('/usersnotrecommend/{anio}')
-def usersnotrecommend(anio: int):
-        # Filtro teniendo en cuenta los negativos
-    filtro_df1 = dataframe1[(dataframe1['Recomendacion'] == False)]
-
-        # Filtro segun año
-    filtro_df2 = dataframe2[dataframe2['Lanzamiento'] == anio]
-
-    if filtro_df1.empty or filtro_df2.empty:
-        return {"Mensaje": "No se encontraron juegos no recomendados para el año especificado"}
-
-    
-    juegos_no_recomendados = filtro_df1.merge(filtro_df2, left_on='Item_id', right_on='Id')
-    top_juegos = juegos_no_recomendados.groupby('Nombre_del_contenido')['Recomendacion'].count().reset_index()
-
-        # Ordenar
+        # Ordenar los juegos 
     top_juegos = top_juegos.sort_values(by='Recomendacion', ascending=False).head(3)
 
         # Salida
@@ -130,6 +97,27 @@ def usersnotrecommend(anio: int):
 
     return resultado
 
+
+#////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+@app.get('/usersnotrecommend/{anio}')
+def usersrecommend(anio: int):
+        # Filtro
+    filtro_df = dataframe[(dataframe['Recomendacion'] == False) & (dataframe['Lanzamiento'] == anio)]
+
+    if filtro_df.empty:
+        return {"Mensaje": f"No se encontraron juegos recomendados para el año {anio}"}
+
+        # Agrupar los juegos 
+    top_juegos = filtro_df.groupby('Nombre_del_contenido')['Recomendacion'].count().reset_index()
+
+        # Ordenar los juegos 
+    top_juegos = top_juegos.sort_values(by='Recomendacion', ascending=False).head(3)
+
+        # Formatear el resultado en el formato deseado
+    resultado = [{"Puesto " + str(i + 1): juego} for i, juego in enumerate(top_juegos['Nombre_del_contenido'])]
+
+    return resultado
 #////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 df = pd.read_csv('dfx_sentimiento.csv')
