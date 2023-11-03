@@ -172,9 +172,10 @@ Ademas hay que unificcar Dataframe
 ![parte delantera](eda5.jpg)
 
 
-Desarrollo API: Propones disponibilizar los datos de la empresa usando el framework FastAPI. Las consultas que propones son las siguientes:
 
-La misma se desarrollo en el entorno de desarrollo Visual Code
+## Desarrollo API: Propones disponibilizar los datos de la empresa usando el framework FastAPI. Las consultas que propones son las siguientes:
+
+### La misma se desarrollo en el entorno de desarrollo Visual Code
 
 ![parte delantera](api1.jpg)
 
@@ -252,4 +253,64 @@ Datos de Prueba
 2004
 
 ![parte delantera](api8.jpg)
+
+
+## Vamos a subir nuestras funciones a Render
+
+![parte delantera](render1.png)
+
+### Nota: por cuestion de version gratuita de render y sus politicas de Administracion de recursos
+
+![parte delantera](render2.png)
+
+### vamos a subir en dos partes el trabajo.
+
+ ### Las funciones expuestas anteriomente estan en el siguiente enlace:
+
+ https://apis-games23.onrender.com/docs#/
+
+ ### Y la funcion de Recomendaciones 
+
+ https://sistema-de-recomendacion-h1ms.onrender.com/docs#/
+
+
+ ### Modelo de aprendizaje automático
+
+        def recomendacion_juego( id de producto ): Ingresando el id de producto, deberíamos recibir una lista con 5 juegos recomendados similares al ingresado.
+
+Datos de prueba
+
+22380
+
+67000
+
+80300
+
+18040
+
+6120
+
+![parte delantera](render33.jpg)
+
+
+
+
+
+
+
+
+![parte delantera](github1.jpeg)
+
+
+### Enlace de Github
+
+https://github.com/claudiogit2019/Proyecto_Games23.git
+
+https://github.com/claudiogit2019/Proyecto_Games23_SRecomendacion.git
+
+
+
+### Enlace de Google Colab
+
+https://colab.research.google.com/drive/1GB3aKhteC0aSt5PubYf9vTOJnf9N6SIs?usp=sharing
 
